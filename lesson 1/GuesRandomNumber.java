@@ -6,13 +6,13 @@ public class GuesRandomNumber {
         System.setProperty("console.encoding","UTF-8");
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-        print("Добро пожаловать в угадайку. Для выхода введите exit");
+        print("Р”РѕР±СЂРѕ РїРѕР¶Р°Р»РѕРІР°С‚СЊ РІ СѓРіР°РґР°Р№РєСѓ. Р”Р»СЏ РІС‹С…РѕРґР° РІРІРµРґРёС‚Рµ exit");
 
         Integer input;
         Boolean play = true;
         while (play) {
             Integer randomNumber = setRandomNumber();
-            print("Привет! Я загадал число от 0 до 100. Угадай какое?");
+            print("РџСЂРёРІРµС‚! РЇ Р·Р°РіР°РґР°Р» С‡РёСЃР»Рѕ РѕС‚ 0 РґРѕ 100. РЈРіР°РґР°Р№ РєР°РєРѕРµ?");
             while (true) {
                 String temp = reader.readLine();
                 if (temp.equalsIgnoreCase("exit")) {
@@ -24,13 +24,13 @@ public class GuesRandomNumber {
                     continue;
                 }
                 if (input > randomNumber) {
-                    print("Нет, я загадал число поменьше.");
+                    print("РќРµС‚, СЏ Р·Р°РіР°РґР°Р» С‡РёСЃР»Рѕ РїРѕРјРµРЅСЊС€Рµ.");
                 } else if (input < randomNumber) {
-                    print("Нет, я загадал число побольше.");
+                    print("РќРµС‚, СЏ Р·Р°РіР°РґР°Р» С‡РёСЃР»Рѕ РїРѕР±РѕР»СЊС€Рµ.");
                 } else if (input == randomNumber) {
-                    print("Ух-Ты! Ты угадал моё число!!!");
-                    print("Хочешь сыграть ещё раз?");
-                    print("Введи \"yes\", если хочешь");
+                    print("РЈС…-РўС‹! РўС‹ СѓРіР°РґР°Р» РјРѕС‘ С‡РёСЃР»Рѕ!!!");
+                    print("РҐРѕС‡РµС€СЊ СЃС‹РіСЂР°С‚СЊ РµС‰С‘ СЂР°Р·?");
+                    print("Р’РІРµРґРё \"yes\", РµСЃР»Рё С…РѕС‡РµС€СЊ");
                     play = reader.readLine().equalsIgnoreCase("yes");
                     break;
                 }
