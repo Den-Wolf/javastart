@@ -50,7 +50,7 @@ public class GuesRandomNumber {
         } else {
             try {
                 return Integer.parseInt(input);
-            } catch (Exception ex) {
+            } catch (NumberFormatException nfex) {
                 return inputRequest();
             }
         }
