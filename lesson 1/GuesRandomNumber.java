@@ -2,6 +2,7 @@ import java.io.*;
 import java.util.*;
 
 public class GuesRandomNumber {
+    
     private static int randomNumber;
     private static boolean isStopped = false;
 
