@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class GuesRandomNumber {
+public class GuessRandomNumber {
     private static int randomNumber;
     private static boolean isStopped = false;
 
@@ -30,7 +30,7 @@ public class GuesRandomNumber {
         String inputData = reader.readLine();
         if (inputData.equalsIgnoreCase("exit")) {
             isStopped = true;
-            print("Приходи ещё! Я буду тебя ждать)")
+            print("Приходи ещё! Я буду тебя ждать)");
         }
         return  inputData;
     }
