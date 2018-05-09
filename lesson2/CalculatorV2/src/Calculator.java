@@ -43,8 +43,8 @@ class Calculator {
             isRunning = false;
             return true;
         } else if (
-                   splittedExpression[0].matches("(-|\\+)?[0-9]+(\\.[0-9]+)?")
-                && splittedExpression[2].matches("(-|\\+)?[0-9]+(\\.[0-9]+)?")
+                   splittedExpression[0].matches("[-+]?[0-9]+(\\.[0-9]+)?")
+                && splittedExpression[2].matches("[-+]?[0-9]+(\\.[0-9]+)?")
                 ) {
             return true;
         } else {
