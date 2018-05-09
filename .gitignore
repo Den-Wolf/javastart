@@ -11,8 +11,8 @@
 .mtj.tmp/
 
 # IntelliJ IDEA files
-/.idea/
-/out/
+.idea
+out
 
 # Package Files #
 *.jar
