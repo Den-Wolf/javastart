@@ -12,6 +12,7 @@
 
 # IntelliJ IDEA files
 /.idea/
+/out/
 
 # Package Files #
 *.jar
