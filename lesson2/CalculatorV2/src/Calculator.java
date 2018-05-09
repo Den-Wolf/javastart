@@ -33,6 +33,8 @@ class Calculator {
 
             if (isExpressionCorrect(query)) {
                 return splittedExpression;
+            } else {
+                Arrays.fill(splittedExpression, "");
             }
         }
     }
