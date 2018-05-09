@@ -22,25 +22,6 @@ class Calculator {
         }
     }
 
-    private void printInfo() {
-        print("\nВведите выражение для обработки (\"например 24 * 12\") и нажмите Enter");
-        print("Доступные действия: +, -, *, /, %(остаток от деления), ^(возвести в степень)");
-        print("Либо введите \"exit\" для выхода\n");
-    }
-
-    private void print(Object obj) {
-        if (obj instanceof Double) {
-            double temp = Double.parseDouble(obj.toString());
-            if (temp % 1.0 == 0) {
-                System.out.format("%.0f%n", Double.parseDouble(obj.toString()));
-            } else {
-                System.out.println(temp);
-            }
-        } else {
-            System.out.println(obj);
-        }
-    }
-
     private String[] readExpression() {
         while (true) {
             char[] query;
@@ -56,18 +37,6 @@ class Calculator {
         }
     }
 
-    private void splitExpression (char[] query) {
-            int i = 0;
-            for (Character element : query) {
-                if (element != ' ') {
-                    if (i < 2 && (element.toString().matches("[+|*|\\-|/|^|%]") || i == 1)) {
-                        i++;
-                    }
-                    splittedExpression[i] += element;
-                }
-            }
-    }
-
     private boolean isExpressionCorrect(char[] query) {
         splitExpression(query);
         if (splittedExpression[0].equalsIgnoreCase("exit")) {
@@ -78,9 +47,22 @@ class Calculator {
                 && splittedExpression[2].matches("(-|\\+)?[0-9]+(\\.[0-9]+)?")
                 ) {
             return true;
+        } else {
+            print("Ошибка!");
+            return false;
         }
-        print("Ошибка!");
-        return false;
+    }
+
+    private void splitExpression (char[] query) {
+            int i = 0;
+            for (Character element : query) {
+                if (element != ' ') {
+                    if (i < 2 && (element.toString().matches("[+*\\-/^%]") || i == 1)) {
+                        i++;
+                    }
+                    splittedExpression[i] += element;
+                }
+            }
     }
 
     private void calculateExpression(Double firstNumber, String sign, Double secondNumber) {
@@ -106,5 +88,26 @@ class Calculator {
                 break;
         }
         print("");
+    }
+
+    /////////////////// Cлужебные методы вывода //////////////////
+
+    private void printInfo() {
+        print("\nВведите выражение для обработки (\"например 24 * 12\") и нажмите Enter");
+        print("Доступные действия: +, -, *, /, %(остаток от деления), ^(возвести в степень)");
+        print("Либо введите \"exit\" для выхода\n");
+    }
+
+    private void print(Object obj) {
+        if (obj instanceof Double) {
+            double temp = Double.parseDouble(obj.toString());
+            if (temp % 1.0 == 0) {
+                System.out.format("%.0f%n", Double.parseDouble(obj.toString()));
+            } else {
+                System.out.println(temp);
+            }
+        } else {
+            System.out.println(obj);
+        }
     }
 }
