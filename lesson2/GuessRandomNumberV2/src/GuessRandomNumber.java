@@ -1,5 +1,7 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Date;
+import java.util.Random;
 
 public class GuessRandomNumber {
     private static int randomNumber;
@@ -12,7 +14,7 @@ public class GuessRandomNumber {
         print("Добро пожаловать в угадайку.\n(Для выхода введите exit)\n");
 
         while (!isStopped) {
-            randomNumber = getRandomNumber();
+            randomNumber = getNewRandomNumber();
             print("Привет! Я загадал число от 0 до 100. Угадай какое?");
             play();
             wantToPlayAgain();
@@ -32,24 +34,24 @@ public class GuessRandomNumber {
             isStopped = true;
             print("Приходи ещё! Я буду тебя ждать)");
         }
-        return  inputData;
+        return inputData;
     }
 
-    private static int getRandomNumber() {
+    private static int getNewRandomNumber() {
         long seed = new Date().getTime();
         Random random = new Random(seed);
         return random.nextInt(100);
     }
 
     private static void play() throws Exception {
-        while(!isStopped) {
-            if(checkUserNumberAnswer(numberRequest())) {
+        while (!isStopped) {
+            if (checkUserNumberAnswer(numberRequest())) {
                 break;
             }
         }
     }
 
-    private static boolean checkUserNumberAnswer (int answer) {
+    private static boolean checkUserNumberAnswer(int answer) {
         if (isStopped) {
             return false;
         } else {
@@ -57,7 +59,7 @@ public class GuessRandomNumber {
                 print("Нет, я загадал число поменьше.");
             } else if (answer < randomNumber) {
                 print("Нет, я загадал число побольше.");
-            } else if (answer == randomNumber) {
+            } else {
                 print("Ух-Ты! Ты угадал моё число!!!");
                 return true;
             }
@@ -77,11 +79,20 @@ public class GuessRandomNumber {
         }
     }
 
-    private static void wantToPlayAgain () throws Exception {
+    private static void wantToPlayAgain() throws Exception {
         if (!isStopped) {
             print("Хочешь сыграть ещё раз?");
-            print("Введи \"yes\", если хочешь");
-            isStopped = !(takeUserInput().equalsIgnoreCase("yes"));
+            print("Если да - введи 1\nЕсли нет - введи 2");
+            while (true) {
+                int answer = numberRequest();
+                if (answer == 1 ) {
+                    isStopped = false;
+                    break;
+                } else if (answer == 2) {
+                    isStopped = true;
+                    break;
+                }
+            }
         }
     }
 
