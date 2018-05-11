@@ -1,99 +1,85 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
-public class GuessRandomNumber {
-    private static int randomNumber;
-    private static boolean isStopped = false;
+class GuessRandomNumber {
 
+    private int randomNumber;
+    private Player[] players;
 
-    public static void main(String args[]) throws Exception {
-        //System.setProperty("console.encoding","UTF-8");
+    GuessRandomNumber() {
+        setNewRandomNumber();
+        int numberOfPlayers = 0;
 
-        print("Добро пожаловать в угадайку.\n(Для выхода введите exit)\n");
-
-        while (!isStopped) {
-            randomNumber = getNewRandomNumber();
-            print("Привет! Я загадал число от 0 до 100. Угадай какое?");
-            play();
-            wantToPlayAgain();
-        }
-
-    }
-
-    private static void print(Object obj) {
-        System.out.println(obj);
-    }
-
-    private static String takeUserInput() throws Exception {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
-        String inputData = reader.readLine();
-        if (inputData.equalsIgnoreCase("exit")) {
-            isStopped = true;
-            print("Приходи ещё! Я буду тебя ждать)");
-        }
-        return inputData;
-    }
-
-    private static int getNewRandomNumber() {
-        long seed = new Date().getTime();
-        Random random = new Random(seed);
-        return random.nextInt(100);
-    }
-
-    private static void play() throws Exception {
-        while (!isStopped) {
-            if (checkUserNumberAnswer(numberRequest())) {
-                break;
-            }
-        }
-    }
-
-    private static boolean checkUserNumberAnswer(int answer) {
-        if (isStopped) {
-            return false;
-        } else {
-            if (answer > randomNumber) {
-                print("Нет, я загадал число поменьше.");
-            } else if (answer < randomNumber) {
-                print("Нет, я загадал число побольше.");
-            } else {
-                print("Ух-Ты! Ты угадал моё число!!!");
-                return true;
-            }
-            return false;
-        }
-    }
-
-    private static int numberRequest() throws Exception {
-        if (isStopped) {
-            return -1;
-        } else {
+        print("Введите количество игроков (от 1 до 10)");
+        do {
             try {
-                return Integer.parseInt(takeUserInput());
-            } catch (NumberFormatException nfex) {
-                return numberRequest();
+                numberOfPlayers = Integer.parseInt(Player.readFromConsole());
+            } catch (NumberFormatException nfEx) {
+                print("Ошибка");
             }
+        } while (numberOfPlayers > 10 || numberOfPlayers < 1);
+        players = new Player[numberOfPlayers];
+
+        for (int i = 0; i < numberOfPlayers; i++) {
+            players[i] = new Player();
         }
     }
 
-    private static void wantToPlayAgain() throws Exception {
-        if (!isStopped) {
-            print("Хочешь сыграть ещё раз?");
-            print("Если да - введи 1\nЕсли нет - введи 2");
-            while (true) {
-                int answer = numberRequest();
-                if (answer == 1 ) {
-                    isStopped = false;
-                    break;
-                } else if (answer == 2) {
-                    isStopped = true;
-                    break;
+    void start() {
+        boolean haveWinner = false;
+        while (true) {
+            HashMap<Player, Boolean> usersAnswers = new HashMap<>();
+
+            for (Player player : players) {
+                if (player.tryToGuess() == randomNumber) {
+                    usersAnswers.put(player, true);
+                    haveWinner = true;
+                } else {
+                    usersAnswers.put(player, false);
                 }
             }
+
+            for (Map.Entry<Player, Boolean> entry : usersAnswers.entrySet()) {
+                if (entry.getValue()) {
+                    print(entry.getKey().getName() + " угадал! Мои поздравления!!!");
+                } else {
+                    print(entry.getKey().getName() + " не угадал.");
+                }
+            }
+
+            if (haveWinner) {
+                break;
+            }
+
         }
+    }
+
+    private void setNewRandomNumber() {
+        long seed = new Date().getTime();
+        Random random = new Random(seed);
+        randomNumber = random.nextInt(10);
+    }
+
+    boolean wantToPlayAgain() {
+        print("Хотите сыграть ещё раз?\nВведите номер ответа:\n1 - да\n2 - нет");
+        while (true) {
+            int answer = Player.readNumberFromConsole();
+            if (answer == 1) {
+                setNewRandomNumber();
+                print("Я загадал новое число\nПоробуйте отгадать\n");
+                return true;
+            } else if (answer == 2) {
+                print("Приходите поиграть ещё! Удачного дня!");
+                return false;
+            }
+
+        }
+    }
+
+    private void print(Object obj) {
+        System.out.println(obj);
     }
 
 }
