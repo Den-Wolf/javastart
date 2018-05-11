@@ -3,13 +3,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-class GuessRandomNumber {
+class GuessNumber {
 
     private int randomNumber;
     private Player[] players;
+    private int boundOfNumbers = 10;
 
-    GuessRandomNumber() {
-        setNewRandomNumber();
+    GuessNumber() {
+        setNewRandomNumber(boundOfNumbers);
+        print("Я загадал число от 0 до " + boundOfNumbers);
         int numberOfPlayers = 0;
 
         print("Введите количество игроков (от 1 до 10)");
@@ -29,7 +31,7 @@ class GuessRandomNumber {
 
     void start() {
         boolean haveWinner = false;
-        while (true) {
+        while (!haveWinner) {
             HashMap<Player, Boolean> usersAnswers = new HashMap<>();
 
             for (Player player : players) {
@@ -48,18 +50,13 @@ class GuessRandomNumber {
                     print(entry.getKey().getName() + " не угадал.");
                 }
             }
-
-            if (haveWinner) {
-                break;
-            }
-
         }
     }
 
-    private void setNewRandomNumber() {
+    private void setNewRandomNumber(int bound) {
         long seed = new Date().getTime();
         Random random = new Random(seed);
-        randomNumber = random.nextInt(10);
+        randomNumber = random.nextInt(bound);
     }
 
     boolean wantToPlayAgain() {
@@ -67,7 +64,7 @@ class GuessRandomNumber {
         while (true) {
             int answer = Player.readNumberFromConsole();
             if (answer == 1) {
-                setNewRandomNumber();
+                setNewRandomNumber(boundOfNumbers);
                 print("Я загадал новое число\nПоробуйте отгадать\n");
                 return true;
             } else if (answer == 2) {

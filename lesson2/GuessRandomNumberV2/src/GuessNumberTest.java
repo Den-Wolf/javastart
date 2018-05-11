@@ -1,11 +1,11 @@
 
-public class GuessRandomNumberTest {
+public class GuessNumberTest {
 
     public static void main(String[] args) {
 
         System.out.println("Добро пожаловать в угадайку.\n");
 
-        GuessRandomNumber game = new GuessRandomNumber();
+        GuessNumber game = new GuessNumber();
         do {
             game.start();
         } while (game.wantToPlayAgain());
