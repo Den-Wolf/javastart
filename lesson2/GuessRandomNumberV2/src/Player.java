@@ -1,5 +1,3 @@
-
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,9 +7,8 @@ class Player {
 
     private String name;
 
-    Player() {
-        System.out.println("Введите имя игрока");
-        name = readFromConsole();
+    Player(String name) {
+        this.name = name;
     }
 
     static String readFromConsole() {
@@ -30,6 +27,15 @@ class Player {
             System.out.println("Ошибка");
             return readNumberFromConsole();
         }
+    }
+
+    static Player[] createStackOfPlayers(int numberOfPlayers) {
+        Player[] players = new Player[numberOfPlayers];
+        for (int i = 0; i < numberOfPlayers; i++) {
+            System.out.println("Введите имя игрока " + (i + 1));
+            players[i] = new Player(readFromConsole());
+        }
+        return players;
     }
 
     int tryToGuess() {
