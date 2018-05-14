@@ -5,17 +5,54 @@ import java.util.Random;
 
 class GuessNumber {
 
-    private int randomNumber;
-    private Player[] players;
-    private int limitOfNumbers;
+    private static final int MAX_NUMBER_OF_PLAYERS = 10;
+    private static final int MIN_NUMBER_OF_PLAYERS = 2;
 
-    GuessNumber(int limitOfNumbers, Player[] players) {
-        this.players = players;
-        this.limitOfNumbers = limitOfNumbers;
-        setNewRandomNumber(limitOfNumbers);
+    private static final int MAX_RANDOM_RANGE = 100;
+    private static final int MIN_RANDOM_RANGE = 10;
+
+    private int limitOfNumbers;
+    private int randomNumber;
+
+    private int numberOfPlayers;
+    private Player[] players;
+
+
+    void setNumberOfPlayers() {
+        print("Введите количество игроков (от 1 до 10)");
+        while (true) {
+            int numberOfPlayers = Players.readNumberFromConsole();
+            if (numberOfPlayers < MIN_NUMBER_OF_PLAYERS) {
+                print("А что так мало?");
+            } else if (numberOfPlayers > MAX_NUMBER_OF_PLAYERS) {
+                print("Нет уж, вас слишком много! Играйте по очереди.");
+            } else {
+                this.numberOfPlayers = numberOfPlayers;
+                break;
+            }
+        }
     }
 
+    void setPlayers() {
+        players = Players.createStackOfPlayers(numberOfPlayers);
+    }
+
+    void setLimitOfNumbers(int limitOfNumbers) {
+        if (limitOfNumbers < MIN_RANDOM_RANGE) {
+            print("Вы ввели слишком маленькое число");
+            setLimitOfNumbers(Players.readNumberFromConsole());
+        } else if (limitOfNumbers > MAX_RANDOM_RANGE) {
+            print("Вы ввели слишком большое число");
+            setLimitOfNumbers(Players.readNumberFromConsole());
+        } else {
+            print("Я загадал число от 0 до " + limitOfNumbers);
+            this.limitOfNumbers = limitOfNumbers;
+        }
+    }
+
+
     void start() {
+        setNewRandomNumber(limitOfNumbers);
         boolean haveWinner = false;
         while (!haveWinner) {
             HashMap<Player, Boolean> usersAnswers = new HashMap<>();
@@ -37,6 +74,9 @@ class GuessNumber {
                 }
             }
         }
+        if (wantToPlayAgain()) {
+            start();
+        }
     }
 
     private void setNewRandomNumber(int bound) {
@@ -45,11 +85,10 @@ class GuessNumber {
         randomNumber = random.nextInt(bound);
     }
 
-    boolean wantToPlayAgain() {
+    private boolean wantToPlayAgain() {
         print("Хотите сыграть ещё раз?\nВведите номер ответа:\n1 - да\n2 - нет");
-        int answer = Player.readNumberFromConsole();
+        int answer = Players.readNumberFromConsole();
         if (answer == 1) {
-            setNewRandomNumber(limitOfNumbers);
             print("Я загадал новое число от 0 до " + limitOfNumbers + "\nПоробуйте отгадать\n");
             return true;
         } else if (answer == 2) {
