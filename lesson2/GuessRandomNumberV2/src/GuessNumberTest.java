@@ -16,7 +16,7 @@ public class GuessNumberTest {
         game.start();
     }
 
-    public static void print(Object obj) {
+    private static void print(Object obj) {
         System.out.println(obj);
     }
 
