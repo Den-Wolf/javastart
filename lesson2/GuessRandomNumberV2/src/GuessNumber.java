@@ -17,6 +17,9 @@ class GuessNumber {
     private int numberOfPlayers;
     private Player[] players;
 
+    private boolean isHaveWinner = false;
+    private HashMap<Player, Boolean> resultsOfPlayerAnswers;
+
 
     void setNumberOfPlayers() {
         print("Введите количество игроков (от 1 до 10)");
@@ -51,31 +54,19 @@ class GuessNumber {
     }
 
 
-    void start() {
+    void startNewRound() {
         setNewRandomNumber(limitOfNumbers);
-        boolean haveWinner = false;
-        while (!haveWinner) {
-            HashMap<Player, Boolean> usersAnswers = new HashMap<>();
-
-            for (Player player : players) {
-                if (player.tryToGuess() == randomNumber) {
-                    usersAnswers.put(player, true);
-                    haveWinner = true;
-                } else {
-                    usersAnswers.put(player, false);
-                }
-            }
-
-            for (Map.Entry<Player, Boolean> entry : usersAnswers.entrySet()) {
-                if (entry.getValue()) {
-                    print(entry.getKey().getName() + " угадал! Мои поздравления!!!");
-                } else {
-                    print(entry.getKey().getName() + " не угадал.");
-                }
-            }
+        while (!isHaveWinner) {
+            takeResultOfPlayersAnswers();
+            printResultOfPlayersAnswers();
         }
+
+        print("Хотите сыграть ещё раз?\nВведите номер ответа:\n1 - да\n2 - нет");
         if (wantToPlayAgain()) {
-            start();
+            print("Я загадал новое число от 0 до " + limitOfNumbers + "\nПоробуйте отгадать\n");
+            startNewRound();
+        } else {
+            print("Приходите поиграть ещё! Удачного дня!");
         }
     }
 
@@ -85,14 +76,32 @@ class GuessNumber {
         randomNumber = random.nextInt(bound);
     }
 
+    private void takeResultOfPlayersAnswers() {
+        for (Player player : players) {
+            if (player.tryToGuess() == randomNumber) {
+                resultsOfPlayerAnswers.put(player, true);
+                isHaveWinner = true;
+            } else {
+                resultsOfPlayerAnswers.put(player, false);
+            }
+        }
+    }
+
+    private void printResultOfPlayersAnswers() {
+        for (Map.Entry<Player, Boolean> entry : resultsOfPlayerAnswers.entrySet()) {
+            if (entry.getValue()) {
+                print(entry.getKey().getName() + " угадал! Мои поздравления!!!");
+            } else {
+                print(entry.getKey().getName() + " не угадал.");
+            }
+        }
+    }
+
     private boolean wantToPlayAgain() {
-        print("Хотите сыграть ещё раз?\nВведите номер ответа:\n1 - да\n2 - нет");
         int answer = Players.readNumberFromConsole();
         if (answer == 1) {
-            print("Я загадал новое число от 0 до " + limitOfNumbers + "\nПоробуйте отгадать\n");
             return true;
         } else if (answer == 2) {
-            print("Приходите поиграть ещё! Удачного дня!");
             return false;
         } else {
             return wantToPlayAgain();

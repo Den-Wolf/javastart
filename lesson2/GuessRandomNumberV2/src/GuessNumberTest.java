@@ -13,7 +13,7 @@ public class GuessNumberTest {
         game.setLimitOfNumbers(Players.readNumberFromConsole());
 
 
-        game.start();
+        game.startNewRound();
     }
 
     private static void print(Object obj) {
