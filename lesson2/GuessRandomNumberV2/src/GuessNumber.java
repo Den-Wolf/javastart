@@ -17,8 +17,8 @@ class GuessNumber {
     private int numberOfPlayers;
     private Player[] players;
 
-    private boolean isHaveWinner = false;
-    private HashMap<Player, Boolean> resultsOfPlayerAnswers;
+    private boolean isHaveWinner;
+    private HashMap<Player, Boolean> resultsOfPlayerAnswers = new HashMap<>();
 
 
     void setNumberOfPlayers() {
@@ -56,6 +56,8 @@ class GuessNumber {
 
     void startNewRound() {
         setNewRandomNumber(limitOfNumbers);
+        resultsOfPlayerAnswers.clear();
+        isHaveWinner = false;
         while (!isHaveWinner) {
             takeResultOfPlayersAnswers();
             printResultOfPlayersAnswers();
