@@ -57,19 +57,9 @@ class GuessNumber {
     void startNewRound() {
         setNewRandomNumber(limitOfNumbers);
         resultsOfPlayerAnswers.clear();
-        isHaveWinner = false;
-        while (!isHaveWinner) {
-            takeResultOfPlayersAnswers();
-            printResultOfPlayersAnswers();
-        }
-
-        print("Хотите сыграть ещё раз?\nВведите номер ответа:\n1 - да\n2 - нет");
-        if (wantToPlayAgain()) {
-            print("Я загадал новое число от 0 до " + limitOfNumbers + "\nПоробуйте отгадать\n");
-            startNewRound();
-        } else {
-            print("Приходите поиграть ещё! Удачного дня!");
-        }
+        takeResultOfPlayersAnswers();
+        printResultOfPlayersAnswers();
+        wantToPlayAgain();
     }
 
     private void setNewRandomNumber(int bound) {
@@ -79,14 +69,17 @@ class GuessNumber {
     }
 
     private void takeResultOfPlayersAnswers() {
-        for (Player player : players) {
-            if (player.tryToGuess() == randomNumber) {
-                resultsOfPlayerAnswers.put(player, true);
-                isHaveWinner = true;
-            } else {
-                resultsOfPlayerAnswers.put(player, false);
+        do {
+
+            for (Player player : players) {
+                if (player.tryToGuess() == randomNumber) {
+                    resultsOfPlayerAnswers.put(player, true);
+                    isHaveWinner = true;
+                } else {
+                    resultsOfPlayerAnswers.put(player, false);
+                }
             }
-        }
+        } while (!isHaveWinner);
     }
 
     private void printResultOfPlayersAnswers() {
@@ -99,15 +92,17 @@ class GuessNumber {
         }
     }
 
-    private boolean wantToPlayAgain() {
+    private void wantToPlayAgain() {
+        print("Хотите сыграть ещё раз?\nВведите номер ответа:\n1 - да\n2 - нет");
         int answer = Players.readNumberFromConsole();
         if (answer == 1) {
-            return true;
+            print("Я загадал новое число от 0 до " + limitOfNumbers + "\nПоробуйте отгадать\n");
+            isHaveWinner = false;
+            startNewRound();
         } else if (answer == 2) {
-            return false;
+            print("Приходите поиграть ещё! Удачного дня!");
         } else {
-            return wantToPlayAgain();
-
+            wantToPlayAgain();
         }
     }
 
