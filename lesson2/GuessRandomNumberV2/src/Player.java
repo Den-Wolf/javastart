@@ -8,7 +8,7 @@ class Player {
 
     int tryToGuess() {
         System.out.print(this.name + ", введите ваш вариант: ");
-        return Players.readNumberFromConsole();
+        return Players.readInt();
     }
 
     String getName() {

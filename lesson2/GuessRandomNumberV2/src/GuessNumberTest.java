@@ -5,15 +5,7 @@ public class GuessNumberTest {
         print("Добро пожаловать в угадайку.\n");
 
         GuessNumber game = new GuessNumber();
-        game.setNumberOfPlayers();
-        game.setPlayers();
-
-        print("Я загадаю число от 0 до того, которое вы введете.");
-        print("(можно вводить от 10 до 100):");
-        game.setLimitOfNumbers(Players.readNumberFromConsole());
-
-
-        game.startNewRound();
+        game.startGame();
     }
 
     private static void print(Object obj) {

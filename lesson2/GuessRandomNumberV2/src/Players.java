@@ -3,29 +3,29 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 class Players {
-    static String readFromConsole() {
+    public static String readText() {
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
             return reader.readLine();
-        } catch (IOException ioEx) {
-            return readFromConsole();
+        } catch (IOException e) {
+            return readText();
         }
     }
 
-    static int readNumberFromConsole() {
+    public static int readInt() {
         try {
-            return Integer.parseInt(readFromConsole());
-        } catch (NumberFormatException nfEx) {
+            return Integer.parseInt(readText());
+        } catch (NumberFormatException e) {
             System.out.println("Ошибка");
-            return readNumberFromConsole();
+            return readInt();
         }
     }
 
-    static Player[] createStackOfPlayers(int numberOfPlayers) {
+    public static Player[] createStackOfPlayers(int numberOfPlayers) {
         Player[] players = new Player[numberOfPlayers];
         for (int i = 0; i < numberOfPlayers; i++) {
             System.out.println("Введите имя игрока " + (i + 1));
-            players[i] = new Player(readFromConsole());
+            players[i] = new Player(readText());
         }
         return players;
     }
